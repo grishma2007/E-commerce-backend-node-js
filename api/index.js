@@ -270,7 +270,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const session = require("express-session");
 const path = require("path");
-require("dotenv").config();
+// require("dotenv").config();
 
 
 const paymentRoutes = require("./../routes/paymentRoutes");
@@ -289,7 +289,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-  secret: "super_secret_key",
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -298,7 +298,7 @@ app.use(session({
   }
 }));
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
 // mongoose.connect("mongodb://127.0.0.1:27017/mydb")
