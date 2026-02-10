@@ -273,12 +273,12 @@ const path = require("path");
 require("dotenv").config();
 
 
-const paymentRoutes = require("./routes/paymentRoutes");
-const productRoutes = require("./routes/productRoutes");
-const reviewRoutes = require("./routes/reviewRoutes");
-const authRoutes = require("./routes/authRoutes");
-const User = require("./models/User");
-const orderRoutes = require('./routes/orderRoutes');
+const paymentRoutes = require("./../routes/paymentRoutes");
+const productRoutes = require("./../routes/productRoutes");
+const reviewRoutes = require("./../routes/reviewRoutes");
+const authRoutes = require("./../routes/authRoutes");
+const User = require("./../models/User");
+const orderRoutes = require('./../routes/orderRoutes');
 const app = express();
 app.use(cors({
   origin: ["http://localhost:3000", "https://eyecore.vercel.app"],
@@ -289,7 +289,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: "super_secret_key",
   resave: false,
   saveUninitialized: false,
   cookie: {
