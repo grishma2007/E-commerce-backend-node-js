@@ -285,6 +285,9 @@ app.use(cors({
   credentials: true
 }));
 
+app.get("/", (req, res) => {
+  res.json({ message: "Backend running successfully 🚀" });
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
