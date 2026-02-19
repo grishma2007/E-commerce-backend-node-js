@@ -12,7 +12,7 @@ const User = require("./../models/User");
 const orderRoutes = require('./../routes/orderRoutes');
 const app = express();
 app.use(cors({
-  origin: ["http://localhost:3000", "https://eyecore.vercel.app"],
+  origin: ["https://e-commerce-site-admin-page.vercel.app", "https://eyecore.vercel.app"],
   credentials: true
 }));
 

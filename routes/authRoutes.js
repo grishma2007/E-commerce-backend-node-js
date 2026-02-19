@@ -42,7 +42,7 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Wrong password" });
 
     // ✅ VERY IMPORTANT
- 
+   
 req.session.isLoggedIn = true;
 req.session.userId = user._id;
 
