@@ -11,6 +11,7 @@ const authRoutes = require("./../routes/authRoutes");
 const User = require("./../models/User");
 const orderRoutes = require('./../routes/orderRoutes');
 const app = express();
+const session = require("express-session");
 app.use(cors({
   origin: ["https://e-commerce-site-admin-page.vercel.app", "https://eyecore.vercel.app"],
   credentials: true
@@ -22,6 +23,18 @@ app.get("/", (req, res) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: true,        // IMPORTANT for Vercel (HTTPS)
+    httpOnly: true,
+    sameSite: "none"     // REQUIRED for cross-domain
+  }
+}));
 // app.use(session({
 //   secret: process.env.SESSION_SECRET,
 //   resave: false,
