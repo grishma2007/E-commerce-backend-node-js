@@ -84,9 +84,12 @@ app.put("/info/:id", requireLogin, async (req, res) => {
 
 app.use("/products", productRoutes);
 app.use("/reviews", reviewRoutes);
+app.use("/login", authRoutes);
+app.use("/register", authRoutes);
+app.use("/logout", authRoutes);
 app.use('/api/orders', orderRoutes);
 app.use("/api/payment", paymentRoutes);
-
+ 
 
 
 // const PORT = process.env.PORT || 5000;
