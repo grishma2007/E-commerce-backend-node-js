@@ -15,7 +15,7 @@ const session = require("express-session");
 // ["https://e-commerce-site-admin-page.vercel.app", "https://eyecore.vercel.app"]
 app.use(cors({
   origin: true,
-  credentials: true
+  credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
