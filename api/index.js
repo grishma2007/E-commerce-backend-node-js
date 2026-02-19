@@ -12,8 +12,9 @@ const User = require("./../models/User");
 const orderRoutes = require('./../routes/orderRoutes');
 const app = express();
 const session = require("express-session");
+// ["https://e-commerce-site-admin-page.vercel.app", "https://eyecore.vercel.app"]
 app.use(cors({
-  origin: ["https://e-commerce-site-admin-page.vercel.app", "https://eyecore.vercel.app"],
+  origin: true,
   credentials: true
 }));
 
