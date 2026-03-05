@@ -11,7 +11,7 @@ const User = require("./../models/User");
 const orderRoutes = require('./../routes/orderRoutes');
 const app = express();
 const session = require("express-session");
-const MongoStore = require('connect-mongo');
+const {MongoStore }= require('connect-mongo');
 app.use(cors({
   origin:  [ "http://localhost:5173",
     "https://e-commerce-site-admin-page.vercel.app",
