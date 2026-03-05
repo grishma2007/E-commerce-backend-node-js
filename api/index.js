@@ -12,6 +12,8 @@ const orderRoutes = require('./../routes/orderRoutes');
 const app = express();
 const session = require("express-session");
 const {MongoStore }= require('connect-mongo');
+
+
 app.use(cors({
   origin:  [ "http://localhost:5173",
     "https://e-commerce-site-admin-page.vercel.app",
@@ -33,7 +35,6 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  // This tells express to save sessions to Atlas instead of RAM
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI, 
     collectionName: 'sessions', 
