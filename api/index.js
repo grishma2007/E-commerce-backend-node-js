@@ -14,7 +14,7 @@ const User = require("./../models/User");
 const orderRoutes = require('./../routes/orderRoutes');
 const app = express();
 const session = require("express-session");
-const MongoStore = require('connect-mongo')(session);;
+const MongoStore = require('connect-mongo');
 app.use(cors({
   origin:  [ "http://localhost:5173",
     "https://e-commerce-site-admin-page.vercel.app",
@@ -32,13 +32,28 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+// app.use(session({
+//   secret: process.env.SESSION_SECRET,
+//   resave: false,
+//   saveUninitialized: false,
+//   store: new MongoStore({ // Changed to "new MongoStore"
+//     url: process.env.MONGO_URI, // Changed to "url" (instead of mongoUrl)
+//     collection: 'sessions', 
+//   }),
+//   cookie: {
+//     secure: process.env.NODE_ENV === 'production',       
+//     httpOnly: true,
+//     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'    
+//   }
+// }));
+
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  store: new MongoStore({ // Changed to "new MongoStore"
-    url: process.env.MONGODB_URI, // Changed to "url" (instead of mongoUrl)
-    collection: 'sessions', 
+  store: MongoStore.create({           // Back to MongoStore.create
+    mongoUrl: process.env.MONGO_URI, // Back to mongoUrl
+    collectionName: 'sessions', 
   }),
   cookie: {
     secure: process.env.NODE_ENV === 'production',       
@@ -46,8 +61,6 @@ app.use(session({
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'    
   }
 }));
-
-
 // app.use(session({
 //   secret: process.env.SESSION_SECRET,
 //   resave: false,
