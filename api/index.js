@@ -12,9 +12,8 @@ const User = require("./../models/User");
 const orderRoutes = require('./../routes/orderRoutes');
 const app = express();
 const session = require("express-session");
-// ["https://e-commerce-site-admin-page.vercel.app", "https://eyecore.vercel.app"]
 app.use(cors({
-  origin: true,
+  origin:  ["https://e-commerce-site-admin-page.vercel.app", "https://eyecore.vercel.app"], 
   credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
@@ -100,9 +99,9 @@ app.put("/info/:id", requireLogin, async (req, res) => {
 
 app.use("/products", productRoutes);
 app.use("/reviews", reviewRoutes);
-app.use("/login", authRoutes);
-app.use("/register", authRoutes);
-app.use("/logout", authRoutes);
+app.use("/", authRoutes);
+app.use("/", authRoutes);
+app.use("/", authRoutes);
 app.use('/api/orders', orderRoutes);
 app.use("/api/payment", paymentRoutes);
  
