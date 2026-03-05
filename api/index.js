@@ -1,3 +1,4 @@
+require('dotenv').config(); 
 
 const express = require("express");
 
@@ -27,8 +28,6 @@ app.get("/", (req, res) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-require('dotenv').config(); // Ensure this is at the very top!
-const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
 app.use(session({
