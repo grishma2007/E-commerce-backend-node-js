@@ -1,5 +1,7 @@
 
-
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 const express = require("express");
 
 const cors = require("cors");
@@ -12,6 +14,7 @@ const User = require("./../models/User");
 const orderRoutes = require('./../routes/orderRoutes');
 const app = express();
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 app.use(cors({
   origin:  [ "http://localhost:5173",
     "https://e-commerce-site-admin-page.vercel.app",
@@ -28,7 +31,6 @@ app.get("/", (req, res) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const MongoStore = require('connect-mongo');
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -69,7 +71,6 @@ app.use(session({
 // }));
 
 // app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
 
 // mongoose.connect("mongodb://127.0.0.1:27017/mydb")
 const connectDB = require("../lib/db");
