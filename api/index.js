@@ -1,7 +1,4 @@
 
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
 const express = require("express");
 
 const cors = require("cors");
@@ -32,27 +29,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-// app.use(session({
-//   secret: process.env.SESSION_SECRET,
-//   resave: false,
-//   saveUninitialized: false,
-//   store: new MongoStore({ // Changed to "new MongoStore"
-//     url: process.env.MONGO_URI, // Changed to "url" (instead of mongoUrl)
-//     collection: 'sessions', 
-//   }),
-//   cookie: {
-//     secure: process.env.NODE_ENV === 'production',       
-//     httpOnly: true,
-//     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'    
-//   }
-// }));
-
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({           // Back to MongoStore.create
-    mongoUrl: process.env.MONGO_URI, // Back to mongoUrl
+  // This tells express to save sessions to Atlas instead of RAM
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI, 
     collectionName: 'sessions', 
   }),
   cookie: {
@@ -61,6 +44,8 @@ app.use(session({
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'    
   }
 }));
+
+
 // app.use(session({
 //   secret: process.env.SESSION_SECRET,
 //   resave: false,
@@ -93,10 +78,6 @@ const requireLogin = (req, res, next) => {
     res.status(401).json({ message: "Unauthorized" });
   }
 };
-
-// app.get("/", (req, res) => {
-//   res.send("Eyecore backend running 🚀");
-// });
 
 app.get("/info", requireLogin, async (req, res) => {
   try {
