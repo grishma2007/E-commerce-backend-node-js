@@ -83,9 +83,9 @@ const requireLogin = (req, res, next) => {
   }
 };
 
-app.get("/", (req, res) => {
-  res.send("Eyecore backend running 🚀");
-});
+// app.get("/", (req, res) => {
+//   res.send("Eyecore backend running 🚀");
+// });
 
 app.get("/info", requireLogin, async (req, res) => {
   try {
