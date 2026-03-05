@@ -14,7 +14,7 @@ const User = require("./../models/User");
 const orderRoutes = require('./../routes/orderRoutes');
 const app = express();
 const session = require("express-session");
-const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo')(session);;
 app.use(cors({
   origin:  [ "http://localhost:5173",
     "https://e-commerce-site-admin-page.vercel.app",
@@ -36,13 +36,11 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  // This tells express to save sessions to Atlas instead of RAM
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGODB_URI, 
-    collectionName: 'sessions', // This will create a 'sessions' collection in your DB
+  store: new MongoStore({ // Changed to "new MongoStore"
+    url: process.env.MONGODB_URI, // Changed to "url" (instead of mongoUrl)
+    collection: 'sessions', 
   }),
   cookie: {
-    // Dynamic toggling so you can test locally on HTTP but stay secure in production
     secure: process.env.NODE_ENV === 'production',       
     httpOnly: true,
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'    
