@@ -4,14 +4,53 @@ const User = require("../models/User");
 
 const router = express.Router();
 
+// router.post("/register", async (req, res) => {
+//   const { name, email, phone, password } = req.body;
+
+//   try {
+//     const existing = await User.findOne({ email });
+//     if (existing)
+//       return res.status(400).json({ message: "Email already exists" });
+
+//     const hashed = await bcrypt.hash(password, 10);
+
+//     const user = new User({
+//       name,
+//       email,
+//       phone,
+//       password: hashed
+//     });
+
+//     await user.save();
+//     res.status(201).json({ message: "User registered successfully" });
+
+//   } catch (err) {
+//     res.status(500).json({ message: "Registration failed" });
+//   }
+// });
 router.post("/register", async (req, res) => {
-  const { name, email, phone, password } = req.body;
+  console.log("1. Backend hit! /register route started.");
 
   try {
-    const existing = await User.findOne({ email });
-    if (existing)
-      return res.status(400).json({ message: "Email already exists" });
+    // Moved inside the try block to catch any destructuring errors!
+    const { name, email, phone, password } = req.body;
+    console.log("2. Request body received:", { name, email, phone }); // Omit password for security
 
+    if (!name || !email || !password) {
+      console.log("Error: Missing required fields in req.body");
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    console.log("3. Checking for existing user in database...");
+    // ⚠️ IF IT HANGS HERE, YOUR MONGODB CONNECTION IS FAILING
+    const existing = await User.findOne({ email });
+    
+    if (existing) {
+      console.log("4a. User already exists.");
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
+    console.log("4b. User does not exist, hashing password...");
     const hashed = await bcrypt.hash(password, 10);
 
     const user = new User({
@@ -21,14 +60,17 @@ router.post("/register", async (req, res) => {
       password: hashed
     });
 
+    console.log("5. Saving new user to database...");
     await user.save();
+    
+    console.log("6. Success! Sending response.");
     res.status(201).json({ message: "User registered successfully" });
 
   } catch (err) {
-    res.status(500).json({ message: "Registration failed" });
+    console.error("❌ BACKEND ERROR:", err.message);
+    res.status(500).json({ message: "Registration failed", error: err.message });
   }
 });
-
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
