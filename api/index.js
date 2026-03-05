@@ -1,8 +1,7 @@
 
 const express = require("express");
-const mongoose = require("mongoose");
+
 const cors = require("cors");
-const path = require("path");
 
 const paymentRoutes = require("./../routes/paymentRoutes");
 const productRoutes = require("./../routes/productRoutes");
@@ -28,18 +27,38 @@ app.get("/", (req, res) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
+require('dotenv').config(); // Ensure this is at the very top!
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  // This tells express to save sessions to Atlas instead of RAM
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI, 
+    collectionName: 'sessions', // This will create a 'sessions' collection in your DB
+  }),
   cookie: {
-    secure: true,        // IMPORTANT for Vercel (HTTPS)
+    // Dynamic toggling so you can test locally on HTTP but stay secure in production
+    secure: process.env.NODE_ENV === 'production',       
     httpOnly: true,
-    sameSite: "none"     // REQUIRED for cross-domain
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'    
   }
 }));
+
+
+// app.use(session({
+//   secret: process.env.SESSION_SECRET,
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: {
+//     secure: true,       
+//     httpOnly: true,
+//     sameSite: "none"    
+//   }
+// }));
 // app.use(session({
 //   secret: process.env.SESSION_SECRET,
 //   resave: false,
@@ -102,9 +121,9 @@ app.put("/info/:id", requireLogin, async (req, res) => {
 
 app.use("/products", productRoutes);
 app.use("/reviews", reviewRoutes);
-app.use("/", authRoutes);
-// app.use("/", authRoutes);
-// app.use("/", authRoutes);
+app.use("/register", authRoutes);
+app.use("/login", authRoutes);
+app.use("/me", authRoutes);
 app.use('/api/orders', orderRoutes);
 app.use("/api/payment", paymentRoutes);
  
