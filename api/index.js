@@ -15,10 +15,7 @@ const {MongoStore }= require('connect-mongo');
 
 
 app.use(cors({
-  origin:  [ "http://localhost:5173",
-    "https://e-commerce-site-admin-page.vercel.app",
-    "https://e-commerce-site-admin-page-a26vqsc2o-grishma2007s-projects.vercel.app",
-    "https://eyecore.vercel.app"], 
+  origin: '*', 
   credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
