@@ -17,8 +17,12 @@ const {MongoStore }= require('connect-mongo');
 
 app.use(cors({
   origin: "https://e-commerce-site-admin-page.vercel.app",
-  credentials: true
+  credentials: true,
+  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+  allowedHeaders: ["Content-Type","Authorization"]
 }));
+
+app.options("*", cors());
 app.get("/", (req, res) => {
   res.json({ message: "Backend running successfully 🚀" });
 });
