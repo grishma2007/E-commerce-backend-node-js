@@ -3,24 +3,22 @@ const express = require("express");
 
 const cors = require("cors");
 
-const paymentRoutes = require("./../routes/paymentRoutes");
-const productRoutes = require("./../routes/productRoutes");
-const reviewRoutes = require("./../routes/reviewRoutes");
-const authRoutes = require("./../routes/authRoutes");
-const User = require("./../models/User");
-const orderRoutes = require('./../routes/orderRoutes');
+const paymentRoutes = require("../routes/paymentRoutes");
+const productRoutes = require("../routes/productRoutes");
+const reviewRoutes = require("../routes/reviewRoutes");
+const authRoutes = require("../routes/authRoutes");
+const User = require("../models/User");
+const orderRoutes = require('../routes/orderRoutes');
 const app = express();
+
 const session = require("express-session");
 const {MongoStore }= require('connect-mongo');
 
 
 app.use(cors({
-  origin: '*', 
-  credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  origin: "https://e-commerce-site-admin-page.vercel.app",
+  credentials: true
 }));
-app.options("*", cors());
 app.get("/", (req, res) => {
   res.json({ message: "Backend running successfully 🚀" });
 });
