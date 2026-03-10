@@ -10,9 +10,8 @@ const authRoutes = require("../routes/authRoutes");
 const User = require("../models/User");
 const orderRoutes = require('../routes/orderRoutes');
 const app = express();
-
 const session = require("express-session");
-const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo')(session)
 
 const corsOptions = {
   origin: "https://e-commerce-site-admin-page.vercel.app",
@@ -38,9 +37,9 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI, 
-    collectionName: 'sessions', 
+  store: new MongoStore({
+    url: process.env.MONGO_URI, 
+    collection: 'sessions', 
   }),
   cookie: {
     secure: process.env.NODE_ENV === 'production',       
@@ -48,7 +47,6 @@ app.use(session({
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'    
   }
 }));
-
 
 // app.use(session({
 //   secret: process.env.SESSION_SECRET,
