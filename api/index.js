@@ -12,24 +12,19 @@ const orderRoutes = require('../routes/orderRoutes');
 const app = express();
 
 const session = require("express-session");
-const {MongoStore }= require('connect-mongo');
+const MongoStore = require('connect-mongo');
 
-
-app.use(cors({
+const corsOptions = {
   origin: "https://e-commerce-site-admin-page.vercel.app",
   credentials: true,
-  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
-  allowedHeaders: ["Content-Type","Authorization"]
-}));
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+};
 
+app.use(cors(corsOptions));
   
 app.options('/{*splat}', cors());
-app.use((req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-  next();
-});
+
 
 
 app.get("/", (req, res) => {
